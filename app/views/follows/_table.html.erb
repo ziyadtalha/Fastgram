@@ -1,0 +1,13 @@
+<table class="table table-bordered table-striped bg-white">
+  <tr>
+    <th>Profile</th>
+    <th>Posts</th>
+  </tr>
+
+  <% @follow_list.each do |follower| %>
+    <tr>
+      <td><%= link_to follower.name, view_profile_path(follower.id) %></td>
+      <td><%= follower.posts.count %></td>
+    </tr>
+  <% end %>
+</table>

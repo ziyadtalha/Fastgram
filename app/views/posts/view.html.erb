@@ -1,0 +1,129 @@
+<header>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <style>
+    .mySlides {display:none;}
+  </style>
+</header>
+
+<div class="jumbotron bd-highlight">
+
+  <div class = "container text-center">
+
+    <br>
+
+    <div class="alert alert-primary">
+      <strong>
+        <h2>
+          <b><%= @post.caption %></b>
+        </h2>
+      </strong>
+    </div>
+
+    <div class="row">
+
+      <div class="col text-primary">
+        <h4>
+          <%= link_to "Back", :back %>
+        </h4>
+      </div>
+
+      <div class="col">
+        <% existing_like = @post.likes.find { |like| like.user_id == current_user.id} %>
+
+          <%# if post is liked, then unlike option is displayed %>
+          <% if existing_like %>
+            <%= button_to 'Unlike',{:controller => "likes", :action => "destroy", :post_id => @post.id, id: existing_like.id}, class: "btn btn-lg btn-danger", method: :delete %>
+          <%# if post is not liked, then like option is displayed %>
+          <% else %>
+            <%= button_to 'Like', {:controller => "likes", :action => "create", :post_id => @post.id}, class: "btn btn-lg btn-primary", method: :post %>
+          <% end %>
+      </div>
+
+      <div class="col"></div>
+
+    </div>
+
+
+    <br>
+
+    <div class="w3-content w3-display-container">
+      <% @post.images.each do |image| %>
+        <tr>
+        <td><img src = "<%= (url_for(image))%>" class="mySlides" style="width:100%"></td>
+        </tr>
+      <% end %>
+
+      <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+      <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+    </div>
+  </div>
+
+  <br>
+
+  <div class="container bg-secondary">
+
+    <div class="row">
+
+      <div class = "col"></div>
+
+      <div class = "col bg-white">
+        <h2 class="bg-secondary text-white text-center">
+          Comments
+        </h2>
+
+        <br>
+
+        <%- @post.comments.each do |comment|%>
+          <% if (comment.text.present?) %>
+
+            <b> <%= comment.user.name %> </b>
+
+            <br>
+            <%= comment.text%>
+
+            <%# Users can delete their own comments, and Users can delete any comment under their own posts %>
+            <% if ((comment.user_id == current_user.id) || (@post.user_id == current_user.id)) %>
+
+              <%# Since a potential comment (text and username are empty on it) is built by default,
+                so we only display delete button for those comment that have text %>
+              <%= button_to "Delete", {:controller => "comments", :action => "destroy", :post_id => @post.id, :comment_id => comment.id }, :method=>:delete, form: {data: {turbo_confirm: 'Are you sure?'}} %>
+            <% else %>
+              <br>
+            <% end %>
+
+            <br>
+          <% end %>
+        <%end%>
+
+        <%= render "comments/form", comment: @comment%>
+      </div>
+
+      <div class = "col"></div>
+
+    </div>
+
+  </div>
+
+  <br>
+
+</div>
+
+<script>
+  var slideIndex = 1;
+  showDivs(slideIndex);
+
+  function plusDivs(n) {
+    showDivs(slideIndex += n);
+  }
+
+  function showDivs(n) {
+    var i;
+    var x = document.getElementsByClassName("mySlides");
+    if (n > x.length) {slideIndex = 1}
+    if (n < 1) {slideIndex = x.length}
+    for (i = 0; i < x.length; i++) {
+      x[i].style.display = "none";
+    }
+    x[slideIndex-1].style.display = "block";
+  }
+</script>

@@ -1,0 +1,81 @@
+<div class = "text-center">
+
+  <div class = "text-center container-sm bg-secondary text-white">
+    <h1>Sign Up</h1>
+  </div>
+
+  <div class="row align-items-center">
+    <div class="col"></div>
+
+    <div class="col bd-highlight">
+
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <br>
+
+      <div class="field">
+        <%= f.label :email %><br />
+        <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+      </div>
+
+      <br>
+
+      <div class="field">
+        <%= f.label :name %><br />
+        <%= f.text_field :name, autofocus: true, autocomplete: "name" %>
+      </div>
+
+      <br>
+
+      <div class="field">
+        <%= f.label :bio %><br />
+        <%= f.text_area :bio, autofocus: true, autocomplete: "bio" %>
+      </div>
+
+      <br>
+
+      <div class="field">
+        <%= f.label :password %>
+        <% if @minimum_password_length %>
+          <br>
+          <em>( Miniumum <%= @minimum_password_length %> Characters)</em>
+        <% end %><br />
+        <%= f.password_field :password, autocomplete: "new-password" %>
+      </div>
+
+      <br>
+
+      <div class="field">
+        <%= f.label :password_confirmation %><br />
+        <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+      </div>
+
+      <br>
+
+      <div class="field">
+        <%= f.label "Upload Avatar:"%>
+        <%= f.file_field :avatar%>
+      </div>
+
+      <br>
+
+    <div class="actions">
+      <%= f.submit "Sign up" %>
+    </div>
+    <% end %>
+
+    </div>
+
+    <div class="col"></div>
+
+
+  </div>
+
+  <br>
+
+  <p>
+    <%= render "devise/shared/links" %>
+  </p>
+
+</div>

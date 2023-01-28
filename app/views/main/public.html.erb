@@ -1,0 +1,35 @@
+<div class="jumbotron bd-highlight">
+  <div class = "container text-center">
+
+    <br>
+
+    <div class="alert alert-primary">
+      <strong>
+        <h2>
+          All Public Posts:
+        </h2>
+      </strong>
+    </div>
+
+    <br>
+
+    <table class="table table-bordered table-striped bg-white">
+          <tr>
+            <th>User</th>
+            <th>Post</th>
+            <th>Likes</th>
+            <th>Comments</th>
+          </tr>
+
+          <% @posts.each do |post| %>
+            <tr>
+              <td><%= link_to post.user.name, view_profile_path(post.user_id) %></td>
+              <td><%= link_to post.caption, view_post_path(post) %></td>
+              <td><%= post.likes.count %></td>
+              <td><%= post.comments.count %></td>
+            </tr>
+          <% end %>
+    </table>
+
+  </div>
+</div>

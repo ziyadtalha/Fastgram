@@ -1,0 +1,47 @@
+<div class="jumbotron-container text-center">
+    <% if user_signed_in? %>
+      <div class=" alert alert-primary">
+        <strong>
+          <h1>
+            Welcome @<%= current_user.name %>
+            <br>
+          </h1>
+        </strong>
+      </div>
+
+
+      <div class="container">
+        <% if current_user.avatar.attached? %>
+          <img src = "<%= (url_for(current_user.avatar))%>" height = "200" max-width = "200">
+        <% end %>
+      </div>
+
+      <br>
+
+      <h2>
+        <u>
+          How can we help you?
+        </u>
+      </h2>
+
+      <br>
+
+      <%= button_to "Create Post", create_post_path, method: :get, class: "btn btn-primary" %>
+
+      <br>
+
+      <%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "btn btn-danger" %>
+
+      <br>
+
+    <% else %>
+      <div class="container alert alert-primary">
+        <strong>
+          <h1>Welcome to Fastgram!</h1>
+        </strong>
+      </div>
+
+      <br>
+      <h2>Sign Up or Sign In to continue!</h2>
+    <% end %>
+</div>

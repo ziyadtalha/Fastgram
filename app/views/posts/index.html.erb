@@ -1,0 +1,143 @@
+<div class="jumbotron bd-highlight">
+
+  <div class = "container text-center">
+
+    <br>
+
+    <div class="row">
+
+      <div class="col-6 alert alert-primary">
+        <strong>
+          <h2>
+            @<%= @user.name %>
+          </h2>
+        </strong>
+
+        <br>
+
+        <div class="container">
+          <% if @user.avatar.attached? %>
+            <img src = "<%= (url_for(@user.avatar))%>" height = "250" max-width = "250">
+          <% end %>
+        </div>
+
+        <br>
+
+      <h4>
+        <%= @user.bio %>
+      </h4>
+
+      </div>
+
+      <div class="col">
+          <br>
+          <br>
+
+          <div>
+            <h5>
+
+              Posts:
+              <%= link_to @user.posts.count, view_profile_path(@user.id), class: "text-black", method: :get %>
+
+              &nbsp;
+              &nbsp;
+              &nbsp;
+
+              Followers:
+              <%= link_to @user.received_follows.count, view_followers_path(@user.id), class: "text-black", method: :get %>
+
+              &nbsp;
+              &nbsp;
+              &nbsp;
+
+              Following:
+              <%= link_to @user.followings.count, view_following_path(@user.id), class: "text-black", method: :get %>
+            </h5>
+          </div>
+
+          <br>
+          <br>
+
+          <% if (@user.id != current_user.id) %>
+
+            <% existing_follow = @user.received_follows.find { |follow| follow.follower_id == current_user.id} %>
+
+            <%# if user is followed, then unfollow option is displayed %>
+            <% if existing_follow %>
+              <%= button_to 'Unfollow', {:controller => "follows", :action => "destroy", :id => @user.id}, class: "btn btn btn-danger", method: :delete %>
+
+            <%# if post is not followed, then follow option is displayed %>
+            <% else %>
+              <%= button_to 'Follow', {:controller => "follows", :action => "create", :id => @user.id}, class: "btn btn btn-primary", method: :post %>
+            <% end %>
+
+          <% end %>
+
+          <br>
+          <br>
+
+      </div>
+
+    </div>
+
+    <br>
+
+  <% @posts.each do |post| %>
+    <div class="row">
+
+      <div class = "col"></div>
+
+      <div class="col-6 bg-white">
+
+              <br>
+              <caption>
+                <h3>
+                  <%= link_to post.caption, view_post_path(post) %>
+                </h3>
+              </caption>
+              <br>
+
+              <img src = "<%= (url_for(post.images.first()))%>" class="mySlides" style="width:100%">
+
+              <br>
+              <br>
+
+              <table class="table table-bordered table-striped bg-white">
+
+                <tr>
+                  <th>Likes</th>
+                  <th>Comments</th>
+
+                  <% if (current_user.id == @user.id)%>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                  <% end %>
+                </tr>
+
+                <tr>
+                  <td><%= post.likes.count %></td>
+                  <td><%= post.comments.count %></td>
+
+                  <% if (current_user.id == post.user_id)%>
+                    <td><%= link_to "Edit", edit_post_path(post), class: "btn btn-primary" %></td>
+                    <!--
+                      Not to self, sending a delete request with link_to is very bugged at least in rails 7 for some reason
+                      Using turbo_method did not work either
+                      Therefore button_to is a better option for delete requests
+                    -->
+                    <td><%= button_to "Delete", delete_post_path(post), class: "btn btn-danger", :method=>:delete %></td>
+                  <% end %>
+                </tr>
+              </table>
+      </div>
+
+      <div class="col">
+      </div>
+
+    </div>
+
+    <br>
+  <% end %>
+
+  </div>
+</div>

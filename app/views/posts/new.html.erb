@@ -1,0 +1,49 @@
+<div class = "jumbotron">
+  <div class="container text-center">
+    <br>
+
+    <h1 class="bg-secondary text-white">
+      <u>
+        Add Post Details
+      </u>
+    </h1>
+
+    <br>
+
+    <div class="container">
+      <%= form_with model: @post, url: create_post_path do |form|%>
+
+        <% if @post.errors.any? %>
+          <div class="alert alert-danger">
+            <% @post.errors.full_messages.each do |message|%>
+            <div>
+              <%=message%>
+            </div>
+            <%end%>
+          </div>
+        <%end%>
+
+        <h4>
+          <br>
+
+          <label name='post_caption'>Caption:</label>
+          <%= form.text_field :caption, class: "form-control", :required => true%>
+
+          <br>
+
+          <label name='post_images'>Images </label>
+          <%= form.file_field :images, :multiple => true , class: "form-control", :required => true%>
+
+        </h4>
+
+        <br>
+
+        <%= form.submit "Post", class: "btn btn-lg btn-primary"%>
+
+        <br>
+
+      <% end %>
+    </div>
+
+  </div>
+</div>
