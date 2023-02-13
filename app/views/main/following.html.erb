@@ -25,12 +25,7 @@
             <% f.posts.each do |post| %>
               <tr>
                 <td>
-                  <% if current_user.avatar.attached? %>
-                    <img src = "<%= (url_for(post.user.avatar))%>"  width = "80">
-                  <% end %>
-                  <br>
                   <%= link_to post.user.name, view_profile_path(post.user_id) %>
-
                 </td>
                 <td><%= link_to post.caption, view_post_path(post) %></td>
                 <td><%= post.likes.count %></td>

@@ -28,21 +28,22 @@
       </div>
 
       <div class="col">
+
         <% existing_like = @post.likes.find { |like| like.user_id == current_user.id} %>
 
           <%# if post is liked, then unlike option is displayed %>
           <% if existing_like %>
-            <%= button_to 'Unlike',{:controller => "likes", :action => "destroy", :post_id => @post.id, id: existing_like.id}, class: "btn btn-lg btn-danger", method: :delete %>
+              <%= button_to '',{:controller => "likes", :action => "destroy", :post_id => @post.id, id: existing_like.id}, class: "btn btn-lg btn-danger fa-2x fa-solid fa-thumbs-down", method: :delete %>
+
           <%# if post is not liked, then like option is displayed %>
           <% else %>
-            <%= button_to 'Like', {:controller => "likes", :action => "create", :post_id => @post.id}, class: "btn btn-lg btn-primary", method: :post %>
+            <%= button_to '', {:controller => "likes", :action => "create", :post_id => @post.id}, class: "btn btn-lg btn-primary fa-2x fa-solid fa-thumbs-up", method: :post %>
           <% end %>
       </div>
 
       <div class="col"></div>
 
     </div>
-
 
     <br>
 
@@ -58,6 +59,7 @@
     </div>
   </div>
 
+  <br>
   <br>
 
   <div class="container bg-secondary">
@@ -79,17 +81,30 @@
             <b> <%= comment.user.name %> </b>
 
             <br>
-            <%= comment.text%>
 
-            <%# Users can delete their own comments, and Users can delete any comment under their own posts %>
-            <% if ((comment.user_id == current_user.id) || (@post.user_id == current_user.id)) %>
+            <div class="row">
 
-              <%# Since a potential comment (text and username are empty on it) is built by default,
-                so we only display delete button for those comment that have text %>
-              <%= button_to "Delete", {:controller => "comments", :action => "destroy", :post_id => @post.id, :comment_id => comment.id }, :method=>:delete, form: {data: {turbo_confirm: 'Are you sure?'}} %>
-            <% else %>
-              <br>
-            <% end %>
+              <div class = "col">
+                <%= comment.text%>
+              </div>
+
+              <div class = "col">
+                <%# Users can delete their own comments, and Users can delete any comment under their own posts %>
+                <% if ((comment.user_id == current_user.id) || (@post.user_id == current_user.id)) %>
+                  <%#
+                    Since a potential comment (text and username are empty on it) is built by default,
+                    so we only display delete button for those comment that have text
+                  %>
+
+                  <%= button_to '', {:controller => "comments", :action => "destroy", :post_id => @post.id, :comment_id => comment.id }, class: "fa-solid fa-trash", :method=>:delete, form: {data: {turbo_confirm: 'Are you sure?'}} %>
+
+                <% else %>
+                  <br>
+                <% end %>
+
+              </div>
+
+            </div>
 
             <br>
           <% end %>

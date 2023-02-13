@@ -64,11 +64,11 @@
 
             <%# if user is followed, then unfollow option is displayed %>
             <% if existing_follow %>
-              <%= button_to 'Unfollow', {:controller => "follows", :action => "destroy", :id => @user.id}, class: "btn btn btn-danger", method: :delete %>
+              <%= button_to '', {:controller => "follows", :action => "destroy", :id => @user.id}, class: "btn btn-lg btn-danger fa-2x fa-sharp fa-solid fa-user-slash", method: :delete %>
 
             <%# if post is not followed, then follow option is displayed %>
             <% else %>
-              <%= button_to 'Follow', {:controller => "follows", :action => "create", :id => @user.id}, class: "btn btn btn-primary", method: :post %>
+              <%= button_to '', {:controller => "follows", :action => "create", :id => @user.id}, class: "btn btn-lg btn-primary fa-2x fa-sharp fa-solid fa-user", method: :post %>
             <% end %>
 
           <% end %>
@@ -119,13 +119,13 @@
                   <td><%= post.comments.count %></td>
 
                   <% if (current_user.id == post.user_id)%>
-                    <td><%= link_to "Edit", edit_post_path(post), class: "btn btn-primary" %></td>
+                    <td><%= link_to '', edit_post_path(post), class: "btn btn-lg btn-primary fa-solid fa-pen-to-square" %></td>
                     <!--
                       Not to self, sending a delete request with link_to is very bugged at least in rails 7 for some reason
                       Using turbo_method did not work either
                       Therefore button_to is a better option for delete requests
                     -->
-                    <td><%= button_to "Delete", delete_post_path(post), class: "btn btn-danger", :method=>:delete %></td>
+                    <td><%= button_to '', delete_post_path(post), class: "btn btn-lg btn-danger fa-solid fa-trash", :method=>:delete %></td>
                   <% end %>
                 </tr>
               </table>
