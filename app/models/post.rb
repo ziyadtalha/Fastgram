@@ -10,7 +10,6 @@ class Post < ApplicationRecord
   #caption should not be null
   validates :caption, presence: true
 
-
   #max 5 images per post
   validate :validate_images
 

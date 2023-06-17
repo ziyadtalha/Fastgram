@@ -9,44 +9,6 @@
 
   <div class = "container text-center">
 
-    <br>
-
-    <div class="alert alert-primary">
-      <strong>
-        <h2>
-          <b><%= @post.caption %></b>
-        </h2>
-      </strong>
-    </div>
-
-    <div class="row">
-
-      <div class="col text-primary">
-        <h4>
-          <%= link_to "Back", :back %>
-        </h4>
-      </div>
-
-      <div class="col">
-
-        <% existing_like = @post.likes.find { |like| like.user_id == current_user.id} %>
-
-          <%# if post is liked, then unlike option is displayed %>
-          <% if existing_like %>
-              <%= button_to '',{:controller => "likes", :action => "destroy", :post_id => @post.id, id: existing_like.id}, class: "btn btn-lg btn-danger fa-2x fa-solid fa-thumbs-down", method: :delete %>
-
-          <%# if post is not liked, then like option is displayed %>
-          <% else %>
-            <%= button_to '', {:controller => "likes", :action => "create", :post_id => @post.id}, class: "btn btn-lg btn-primary fa-2x fa-solid fa-thumbs-up", method: :post %>
-          <% end %>
-      </div>
-
-      <div class="col"></div>
-
-    </div>
-
-    <br>
-
     <div class="w3-content w3-display-container">
       <% @post.images.each do |image| %>
         <tr>
@@ -54,12 +16,55 @@
         </tr>
       <% end %>
 
-      <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
-      <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+      <%# only display the gallery navigators if multiple images in a post %>
+      <% if @post.images.length > 1 %>
+        <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+        <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+      <% end %>
+
     </div>
   </div>
 
   <br>
+
+  <div class="container">
+
+    <div class="row">
+
+      <div class = "col text-center">
+
+      <br>
+
+      <% existing_like = @post.likes.find { |like| like.user_id == current_user.id} %>
+
+        <%# if post is liked, then unlike option is displayed %>
+        <% if existing_like %>
+            <%= button_to '',{:controller => "likes", :action => "destroy", :post_id => @post.id, id: existing_like.id}, class: "btn btn-lg btn-danger fa-2x fa-solid fa-thumbs-down", method: :delete %>
+
+        <%# if post is not liked, then like option is displayed %>
+        <% else %>
+          <%= button_to '', {:controller => "likes", :action => "create", :post_id => @post.id}, class: "btn btn-lg btn-primary fa-2x fa-solid fa-thumbs-up", method: :post %>
+        <% end %>
+
+      </div>
+
+      <div class = "col text-center">
+        <div class="alert alert-primary">
+          <strong>
+            <h2><b>
+              <%= @post.caption %>
+            </b></h2>
+          </strong>
+        </div>
+      </div>
+
+      <div class = "col">
+      </div>
+
+    </div>
+
+  </div>
+
   <br>
 
   <div class="container bg-secondary">
